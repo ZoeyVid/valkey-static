@@ -16,4 +16,5 @@ RUN apk upgrade --no-cache -a && \
     valkey-server -v
 
 ENTRYPOINT ["tini", "--", "valkey-server"]
+CMD ["--loglevel", "notice"]
 EXPOSE 6379/tcp
