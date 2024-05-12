@@ -1,0 +1,36 @@
+name: dependency-updates
+on:
+  push:
+    branches:
+      - latest
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+jobs:
+  valkey-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: update valkey version
+        id: update
+        run: |
+          VALKEY_VERSION="$(
+          git ls-remote --tags https://github.com/valkey-io/valkey \
+              | cut -d/ -f3 \
+              | grep -v redis \
+              | sort -V \
+              | tail -1
+          )"
+          sed -i "s|ARG VALKEY_VERSION=.*|ARG VALKEY_VERSION=$VALKEY_VERSION|" Dockerfile
+          echo "version=$VALKEY_VERSION" >> $GITHUB_OUTPUT
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          signoff: true
+          delete-branch: true
+          commit-message: update valkey version to ${{ steps.update.outputs.version }}
+          branch: update-valkey-version
+          title: update valkey version to ${{ steps.update.outputs.version }}
+          body: update valkey version to ${{ steps.update.outputs.version }}
+          
