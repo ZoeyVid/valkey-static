@@ -26,5 +26,5 @@ VOLUME /data
 WORKDIR /data
 USER redis:redis
 
-ENTRYPOINT ["tini", "--", "valkey-server", "--protected-mode", "no", "--loglevel", "notice"]
+ENTRYPOINT ["tini", "--", "valkey-server", "--protected-mode", "no"]
 EXPOSE 6379/tcp
