@@ -10,10 +10,21 @@ RUN apk upgrade --no-cache -a && \
     make -j "$(nproc)" LDFLAGS="-s -w -static" CFLAGS="-static" USE_SYSTEMD=no BUILD_TLS=no
 
 FROM alpine:3.20.0
+COPY --from=build /src/src/valkey-cli    /usr/local/bin/valkey-cli
 COPY --from=build /src/src/valkey-server /usr/local/bin/valkey-server
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini && \
-    valkey-server -v
+    valkey-cli --version && \
+    valkey-server --version && \
+    addgroup -S -g 1000 redis && \
+    adduser -S -G redis -u 999 redis && \
+    mkdir /data && chown redis:redis /data && \
+    ln -s /usr/local/bin/valkey-cli /usr/local/bin/redis-cli && \
+    ln -s /usr/local/bin/valkey-server /usr/local/bin/redis-server
+
+VOLUME /data
+WORKDIR /data
+USER redis:redis
 
 ENTRYPOINT ["tini", "--", "valkey-server", "--protected-mode", "no", "--loglevel", "notice"]
 EXPOSE 6379/tcp
