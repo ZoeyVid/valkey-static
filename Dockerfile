@@ -15,6 +15,5 @@ RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates tzdata tini && \
     valkey-server -v
 
-ENTRYPOINT ["tini", "--", "valkey-server"]
-CMD ["--loglevel", "notice"]
+ENTRYPOINT ["tini", "--", "valkey-server", "--protected-mode", "no", "--loglevel", "notice"]
 EXPOSE 6379/tcp
