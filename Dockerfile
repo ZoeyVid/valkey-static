@@ -27,4 +27,5 @@ WORKDIR /data
 USER redis:redis
 
 ENTRYPOINT ["tini", "--", "valkey-server", "--protected-mode", "no"]
+HEALTHCHECK CMD redis-cli ping
 EXPOSE 6379/tcp
