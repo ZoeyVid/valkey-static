@@ -57,8 +57,8 @@ jobs:
       - name: show version
         if: ${{ github.ref == 'refs/heads/latest' }}
         run: |
-          docker run --rm ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} -v
-          docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} -v
+          docker run --rm --entrypoint valkey-server ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} --version
+          docker run --rm --entrypoint valkey-server ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }} --version
       - name: copy valkey binary
         if: ${{ github.ref == 'refs/heads/latest' }}
         run: |
@@ -98,7 +98,7 @@ jobs:
           tags: ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
       - name: show version (PR)
         if: ${{ github.event_name == 'pull_request' }}
-        run: docker run --rm ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} -v
+        run: docker run --rm --entrypoint valkey-server ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }} --version
       - name: copy valkey binary (PR)
         if: ${{ github.event_name == 'pull_request' }}
         run: |
