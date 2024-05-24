@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Read version
         id: version
-        run: echo "version=$(echo valkey-$(cat Dockerfile | grep -wE "ARG VALKEY_VERSION=*" | sed "s|ARG VALKEY_VERSION=||g"))" >> $GITHUB_OUTPUT
+        run: echo "version=$(echo $(cat Dockerfile | grep -wE "ARG VALKEY_VERSION=*" | sed "s|ARG VALKEY_VERSION=||g"))" >> $GITHUB_OUTPUT
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
@@ -52,8 +52,10 @@ jobs:
           tags: |
             ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
             ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}
+            ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.version.outputs.version }}
             ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
             ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.run_number }}
+            ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.version.outputs.version }}
       - name: show version
         if: ${{ github.ref == 'refs/heads/latest' }}
         run: |
@@ -84,8 +86,8 @@ jobs:
         with:
           prerelease: false
           repo_token: ${{ github.token }}
-          title: ${{ steps.version.outputs.version }}
-          automatic_release_tag: ${{ steps.version.outputs.version }}
+          title: valkey-${{ steps.version.outputs.version }}
+          automatic_release_tag: valkey-${{ steps.version.outputs.version }}
           files: |
             valkey-cli-x86_64
             valkey-server-x86_64
