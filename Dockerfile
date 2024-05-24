@@ -7,6 +7,7 @@ RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates git build-base && \
     git clone --recursive --branch "$VALKEY_VERSION" https://github.com/valkey-io/valkey /src && \
     cd /src && \
+    sed -i "s|\(protected_mode.*\)1|\10|g" /src/src/config.c && \
     make -j "$(nproc)" LDFLAGS="-s -w -static" CFLAGS="-static" USE_SYSTEMD=no BUILD_TLS=no
 
 FROM alpine:3.20.0
@@ -26,6 +27,6 @@ VOLUME /data
 WORKDIR /data
 USER redis:redis
 
-ENTRYPOINT ["tini", "--", "valkey-server", "--protected-mode", "no"]
+ENTRYPOINT ["tini", "--", "valkey-server"]
 HEALTHCHECK CMD redis-cli ping
 EXPOSE 6379/tcp
