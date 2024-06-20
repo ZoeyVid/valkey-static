@@ -4,7 +4,7 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 ARG VALKEY_VERSION=7.2.5
 
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates git build-base && \
+    apk add --no-cache ca-certificates git build-base pkgconf && \
     git clone --recursive --branch "$VALKEY_VERSION" https://github.com/valkey-io/valkey /src && \
     cd /src && \
     sed -i "s|\(protected_mode.*\)1|\10|g" /src/src/config.c && \
