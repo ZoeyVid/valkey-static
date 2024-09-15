@@ -19,6 +19,7 @@ jobs:
           git ls-remote --tags https://github.com/valkey-io/valkey \
               | cut -d/ -f3 \
               | grep -v redis \
+              | grep "^v\?[0-9]" \
               | sort -V \
               | tail -1
           )"
