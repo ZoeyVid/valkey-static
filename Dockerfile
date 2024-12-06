@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:labs
-FROM alpine:3.20.3 AS build
+FROM alpine:3.21.0 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 ARG VALKEY_VERSION=8.0.1
 
@@ -10,7 +10,7 @@ RUN apk upgrade --no-cache -a && \
     sed -i "s|\(protected_mode.*\)1|\10|g" /src/src/config.c && \
     make -j "$(nproc)" LDFLAGS="-s -w -static" CFLAGS="-static" USE_SYSTEMD=no BUILD_TLS=no
 
-FROM alpine:3.20.3
+FROM alpine:3.21.0
 COPY --from=build /src/src/valkey-cli    /usr/local/bin/valkey-cli
 COPY --from=build /src/src/valkey-server /usr/local/bin/valkey-server
 RUN apk upgrade --no-cache -a && \
