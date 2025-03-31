@@ -20,6 +20,7 @@ jobs:
               | cut -d/ -f3 \
               | grep -v redis \
               | grep "^[0-9]" \
+              | grep -v "\^{}$" \
               | sort -V \
               | tail -1
           )"
