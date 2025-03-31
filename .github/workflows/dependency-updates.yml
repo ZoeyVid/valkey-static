@@ -21,6 +21,7 @@ jobs:
               | grep -v redis \
               | grep "^[0-9]" \
               | grep -v "\^{}$" \
+              | grep -v rc \
               | sort -V \
               | tail -1
           )"
