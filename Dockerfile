@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:labs
 FROM alpine:3.22.0 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
-ARG VALKEY_VERSION=8.1.2
+ARG VALKEY_VERSION=8.1.3
 
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates git build-base pkgconf && \
