@@ -14,7 +14,7 @@ RUN apk upgrade --no-cache -a && \
     git clone --depth 1 https://github.com/valkey-io/valkey --branch "$VALKEY_VERSION" /src && \
     cd /src && \
     sed -i "s|\(protected_mode.*\)1|\10|g" /src/src/config.c && \
-    make -j "$(nproc)" USE_SYSTEMD=no BUILD_TLS=no
+    make -j "$(nproc)"
 
 FROM alpine:3.22.1
 COPY --from=build /src/src/valkey-cli    /usr/local/bin/valkey-cli
