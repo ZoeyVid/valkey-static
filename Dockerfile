@@ -5,7 +5,7 @@ ARG VALKEY_VERSION=8.1.3
 
 RUN apk upgrade --no-cache -a && \
     apk add --no-cache ca-certificates git build-base pkgconf && \
-    git clone --recursive --branch "$VALKEY_VERSION" https://github.com/valkey-io/valkey /src && \
+    git clone --depth 1 --shallow-submodules --recurse-submodules https://github.com/valkey-io/valkey --branch "$VALKEY_VERSION" /src && \
     cd /src && \
     sed -i "s|\(protected_mode.*\)1|\10|g" /src/src/config.c && \
     make -j "$(nproc)" LDFLAGS="-s -w -static" CFLAGS="-static" USE_SYSTEMD=no BUILD_TLS=no
