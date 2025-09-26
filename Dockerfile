@@ -4,13 +4,13 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 ARG VALKEY_VERSION=8.1.3
 
 ARG CC=clang
-ARG CFLAGS="-O2"
+ARG CFLAGS="-O3"
 ARG CXX=clang++
-ARG CXXFLAGS="-O2"
+ARG CXXFLAGS="-O3"
 ARG LDFLAGS="-s -static"
 
 RUN apk upgrade --no-cache -a && \
-    apk add --no-cache ca-certificates git build-base clang pkgconf && \
+    apk add --no-cache ca-certificates git make clang pkgconf && \
     git clone --depth 1 https://github.com/valkey-io/valkey --branch "$VALKEY_VERSION" /src && \
     cd /src && \
     sed -i "s|\(protected_mode.*\)1|\10|g" /src/src/config.c && \
