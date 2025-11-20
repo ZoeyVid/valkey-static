@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Read version
         id: version
         run: echo "version=$(echo $(cat Dockerfile | grep -wE "ARG VALKEY_VERSION=*" | sed "s|ARG VALKEY_VERSION=||g"))" >> $GITHUB_OUTPUT
