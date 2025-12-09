@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:labs
 FROM alpine:3.23.0 AS build
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
-ARG VALKEY_VERSION=9.0.0
+ARG VALKEY_VERSION=9.0.1
 
 ARG CC=clang
 ARG CFLAGS="-O3"
