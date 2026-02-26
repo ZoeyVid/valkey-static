@@ -75,7 +75,7 @@ jobs:
           docker run -d --pull always --platform arm64 --name valkey-aarch64 ${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ github.ref_name }}
           docker cp valkey-aarch64:/usr/local/bin/valkey-server valkey-cli-aarch64
           docker cp valkey-aarch64:/usr/local/bin/valkey-server valkey-server-aarch64
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: ${{ github.ref == 'refs/heads/latest' }}
         with:
           name: artifacts
@@ -123,7 +123,7 @@ jobs:
           docker run -d --pull always --platform arm64 --name valkey-aarch64 ghcr.io/${{ steps.un.outputs.un }}/${{ github.event.repository.name }}:${{ steps.pr.outputs.pr }}
           docker cp valkey-aarch64:/usr/local/bin/valkey-server valkey-cli-aarch64
           docker cp valkey-aarch64:/usr/local/bin/valkey-server valkey-server-aarch64
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: ${{ github.event_name == 'pull_request' }}
         with:
           name: artifacts
