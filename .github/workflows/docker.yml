@@ -22,7 +22,7 @@ jobs:
         id: version
         run: echo "version=$(echo $(cat Dockerfile | grep -wE "ARG VALKEY_VERSION=*" | sed "s|ARG VALKEY_VERSION=||g"))" >> $GITHUB_OUTPUT
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
         with:
           platforms: arm64 #all
       - name: Set up Docker Buildx
